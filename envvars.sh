@@ -1,0 +1,2 @@
+export DB_MIGRATION_CONNECTION_STRING='postgres://dev:dev@localhost:5432/dev_db?sslmode=disable'
+export DB_POSTGRES_CONNECTION_INFO='host=localhost port=5432 user=dev password=dev dbname=dev_db sslmode=disable'

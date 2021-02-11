@@ -1,0 +1,104 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Project Nommies API
+  license:
+    name: MIT
+host: not.implemented.io
+basePath: /v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /recipes:
+    get:
+      summary: List all recipes
+      operationId: listRecipes
+      tags:
+        - recipes
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (min 1)
+          required: false
+          type: integer
+          format: int32
+          minimum: 1
+        - name: offset
+          in: query
+          description: How many items to skip
+          required: false
+          type: integer
+          format: int32
+        - name: sort
+          in: query
+          required: false
+          type: string
+          enum: [asc, desc]
+          description: >
+            Sort order:
+             * asc - Ascending, from A to Z.
+             * desc - Descending, from Z to A.
+      responses:
+        "200":
+          description: Recipe response object containing list of recipes
+          schema:
+            $ref: '#/definitions/ListRecipesResponse'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Recipe:
+    type: "object"
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Unique recipe ID.
+      name:
+        type: string
+        description: Name of recipe.
+      imageUrl:
+        type: string
+        description: URL for display image of recipe.
+      category:
+        type: array
+        items:
+          type: string
+        description: List of categories this recipe belongs to.
+      recipeUrl:
+        type: string
+        description: Direct URL to recipe.      
+  Recipes:
+    type: array
+    items:
+      $ref: '#/definitions/Recipe'
+  ListRecipesResponse:
+    type: object
+    properties:
+      next:
+        type: string
+        description: Url to next page. Empty if no additional pages.
+      recipes:
+        type: array
+        items:
+          $ref: '#/definitions/Recipes'
+  Error:
+    type: "object"
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+    
