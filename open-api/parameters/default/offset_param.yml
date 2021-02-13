@@ -1,0 +1,6 @@
+name: offset
+in: query
+description: How many items to skip
+required: false
+type: integer
+format: int32

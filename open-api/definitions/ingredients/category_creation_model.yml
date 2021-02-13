@@ -1,0 +1,7 @@
+type: "object"
+required:
+  - color
+properties:
+  color:
+    type: string
+    description: Color of category.

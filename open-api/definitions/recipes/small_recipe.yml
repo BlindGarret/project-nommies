@@ -10,6 +10,9 @@ properties:
   name:
     type: string
     description: Name of recipe.
+  description:
+    type: string
+    description: Description of recipe.
   imageUrl:
     type: string
     description: URL for display image of recipe.
@@ -18,6 +21,6 @@ properties:
     items:
       type: string
     description: List of categories this recipe belongs to.
-  recipeUrl:
+  url:
     type: string
     description: Direct URL to recipe. 

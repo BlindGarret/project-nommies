@@ -1,0 +1,29 @@
+summary: Creates an ingredient category
+operationId: createIngredientCategory
+tags:
+  - ingredients
+parameters:
+  - name: id
+    in: path
+    description: Category ID
+    type: string
+    required: true
+  - name: creationModel
+    in: body
+    description: Creation model for category
+    schema:
+      $ref: ../../definitions/ingredients/category_creation_model.yml
+    required: true
+responses:
+  "201":
+    description: Response when model is added to the data collection
+    headers:
+      Location:
+        type: string
+        description: Location of created model.
+  "200":
+    description: Response when model has been updated within the data collection
+  default:
+    description: unexpected error
+    schema:
+      $ref: ../../definitions/default/error.yml

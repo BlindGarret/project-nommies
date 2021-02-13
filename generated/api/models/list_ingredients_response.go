@@ -14,20 +14,20 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// ListRecipesResponse list recipes response
+// ListIngredientsResponse list ingredients response
 //
-// swagger:model ListRecipesResponse
-type ListRecipesResponse struct {
+// swagger:model ListIngredientsResponse
+type ListIngredientsResponse struct {
 
 	// Url to next page. Empty if no additional pages.
 	Next string `json:"next,omitempty"`
 
 	// recipes
-	Recipes []*SmallRecipe `json:"recipes"`
+	Recipes []*SmallIngredient `json:"recipes"`
 }
 
-// Validate validates this list recipes response
-func (m *ListRecipesResponse) Validate(formats strfmt.Registry) error {
+// Validate validates this list ingredients response
+func (m *ListIngredientsResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateRecipes(formats); err != nil {
@@ -40,7 +40,7 @@ func (m *ListRecipesResponse) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *ListRecipesResponse) validateRecipes(formats strfmt.Registry) error {
+func (m *ListIngredientsResponse) validateRecipes(formats strfmt.Registry) error {
 	if swag.IsZero(m.Recipes) { // not required
 		return nil
 	}
@@ -64,8 +64,8 @@ func (m *ListRecipesResponse) validateRecipes(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validate this list recipes response based on the context it is used
-func (m *ListRecipesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validate this list ingredients response based on the context it is used
+func (m *ListIngredientsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateRecipes(ctx, formats); err != nil {
@@ -78,7 +78,7 @@ func (m *ListRecipesResponse) ContextValidate(ctx context.Context, formats strfm
 	return nil
 }
 
-func (m *ListRecipesResponse) contextValidateRecipes(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListIngredientsResponse) contextValidateRecipes(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.Recipes); i++ {
 
@@ -97,7 +97,7 @@ func (m *ListRecipesResponse) contextValidateRecipes(ctx context.Context, format
 }
 
 // MarshalBinary interface implementation
-func (m *ListRecipesResponse) MarshalBinary() ([]byte, error) {
+func (m *ListIngredientsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -105,8 +105,8 @@ func (m *ListRecipesResponse) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *ListRecipesResponse) UnmarshalBinary(b []byte) error {
-	var res ListRecipesResponse
+func (m *ListIngredientsResponse) UnmarshalBinary(b []byte) error {
+	var res ListIngredientsResponse
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

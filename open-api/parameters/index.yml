@@ -1,0 +1,7 @@
+# Default shared parameters
+LimitParam:
+  $ref: ./default/limit_param.yml
+OffsetParam:
+  $ref: ./default/offset_param.yml
+SortParam:
+  $ref: ./default/sort_param.yml

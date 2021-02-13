@@ -9,9 +9,9 @@ import (
 // NewListRecipesHandler constructs a ListRecipeHandlerFunc
 func NewListRecipesHandler() recipes.ListRecipesHandlerFunc {
 	return func(params recipes.ListRecipesParams) middleware.Responder {
-		return recipes.NewListRecipesOK().WithPayload(&models.ListRecipesResponse{
+		return recipes.NewListRecipesOK().WithPayload(&recipes.ListRecipesOKBody{
 			Next:    "something",
-			Recipes: []models.Recipes{},
+			Recipes: []*models.SmallRecipe{},
 		})
 	}
 }

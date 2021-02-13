@@ -38,6 +38,145 @@ func init() {
   "host": "not.implemented.io",
   "basePath": "/v1",
   "paths": {
+    "/ingredientCategories": {
+      "get": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "List all ingredient categories",
+        "operationId": "listIngredientCategories",
+        "parameters": [
+          {
+            "$ref": "#/parameters/OffsetParam"
+          },
+          {
+            "$ref": "#/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/parameters/SortParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ingredient category response object containing list of categories",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "next": {
+                  "description": "Url to next page. Empty if no additional pages.",
+                  "type": "string"
+                },
+                "recipes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/IngredientCategory"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/ingredientCategories/{id}": {
+      "put": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "Creates an ingredient category",
+        "operationId": "createIngredientCategory",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Category ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Creation model for category",
+            "name": "creationModel",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IngredientCategoryCreationModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response when model has been updated within the data collection"
+          },
+          "201": {
+            "description": "Response when model is added to the data collection",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "Location of created model."
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/ingredients": {
+      "get": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "List all ingredients",
+        "operationId": "listIngredients",
+        "parameters": [
+          {
+            "$ref": "#/parameters/OffsetParam"
+          },
+          {
+            "$ref": "#/parameters/LimitParam"
+          },
+          {
+            "$ref": "#/parameters/SortParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ingredient response object containing list of ingredients",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "next": {
+                  "description": "Url to next page. Empty if no additional pages.",
+                  "type": "string"
+                },
+                "recipes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/SmallIngredient"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/recipes": {
       "get": {
         "tags": [
@@ -47,36 +186,32 @@ func init() {
         "operationId": "listRecipes",
         "parameters": [
           {
-            "minimum": 1,
-            "type": "integer",
-            "format": "int32",
-            "description": "How many items to return at one time (min 1)",
-            "name": "limit",
-            "in": "query"
+            "$ref": "#/parameters/OffsetParam"
           },
           {
-            "type": "integer",
-            "format": "int32",
-            "description": "How many items to skip",
-            "name": "offset",
-            "in": "query"
+            "$ref": "#/parameters/LimitParam"
           },
           {
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "type": "string",
-            "description": "Sort order:\n  * asc - Ascending, from A to Z.\n  * desc - Descending, from Z to A.\n",
-            "name": "sort",
-            "in": "query"
+            "$ref": "#/parameters/SortParam"
           }
         ],
         "responses": {
           "200": {
             "description": "Recipe response object containing list of recipes",
             "schema": {
-              "$ref": "#/definitions/ListRecipesResponse"
+              "type": "object",
+              "properties": {
+                "next": {
+                  "description": "Url to next page. Empty if no additional pages.",
+                  "type": "string"
+                },
+                "recipes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/SmallRecipe"
+                  }
+                }
+              }
             }
           },
           "default": {
@@ -106,22 +241,76 @@ func init() {
         }
       }
     },
-    "ListRecipesResponse": {
-      "type": "object",
-      "properties": {
-        "next": {
-          "description": "Url to next page. Empty if no additional pages.",
-          "type": "string"
+    "IngredientCategory": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IngredientCategoryCreationModel"
         },
-        "recipes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Recipes"
+        {
+          "required": [
+            "id"
+          ]
+        },
+        {
+          "properties": {
+            "id": {
+              "description": "Category name/id.",
+              "type": "string"
+            }
           }
+        }
+      ]
+    },
+    "IngredientCategoryCreationModel": {
+      "type": "object",
+      "required": [
+        "color"
+      ],
+      "properties": {
+        "color": {
+          "description": "Color of category.",
+          "type": "string"
         }
       }
     },
-    "Recipe": {
+    "SmallIngredient": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "category": {
+          "description": "List of categories this ingredient belongs to.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "description": "Description of ingredient.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Unique ingredient ID.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "imageUrl": {
+          "description": "URL for display image of ingredient.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of ingredient.",
+          "type": "string"
+        },
+        "url": {
+          "description": "Direct URL to ingredient.",
+          "type": "string"
+        }
+      }
+    },
+    "SmallRecipe": {
       "type": "object",
       "required": [
         "id",
@@ -134,6 +323,10 @@ func init() {
           "items": {
             "type": "string"
           }
+        },
+        "description": {
+          "description": "Description of recipe.",
+          "type": "string"
         },
         "id": {
           "description": "Unique recipe ID.",
@@ -148,17 +341,38 @@ func init() {
           "description": "Name of recipe.",
           "type": "string"
         },
-        "recipeUrl": {
+        "url": {
           "description": "Direct URL to recipe.",
           "type": "string"
         }
       }
+    }
+  },
+  "parameters": {
+    "LimitParam": {
+      "minimum": 1,
+      "type": "integer",
+      "format": "int32",
+      "description": "How many items to return at one time (min 1)",
+      "name": "limit",
+      "in": "query"
     },
-    "Recipes": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Recipe"
-      }
+    "OffsetParam": {
+      "type": "integer",
+      "format": "int32",
+      "description": "How many items to skip",
+      "name": "offset",
+      "in": "query"
+    },
+    "SortParam": {
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "type": "string",
+      "description": "Sort order:\n  * asc - Ascending, from A to Z.\n  * desc - Descending, from Z to A.\n",
+      "name": "sort",
+      "in": "query"
     }
   }
 }`))
@@ -183,14 +397,21 @@ func init() {
   "host": "not.implemented.io",
   "basePath": "/v1",
   "paths": {
-    "/recipes": {
+    "/ingredientCategories": {
       "get": {
         "tags": [
-          "recipes"
+          "ingredients"
         ],
-        "summary": "List all recipes",
-        "operationId": "listRecipes",
+        "summary": "List all ingredient categories",
+        "operationId": "listIngredientCategories",
         "parameters": [
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "How many items to skip",
+            "name": "offset",
+            "in": "query"
+          },
           {
             "minimum": 1,
             "type": "integer",
@@ -200,10 +421,174 @@ func init() {
             "in": "query"
           },
           {
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "type": "string",
+            "description": "Sort order:\n  * asc - Ascending, from A to Z.\n  * desc - Descending, from Z to A.\n",
+            "name": "sort",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ingredient category response object containing list of categories",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "next": {
+                  "description": "Url to next page. Empty if no additional pages.",
+                  "type": "string"
+                },
+                "recipes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/IngredientCategory"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/ingredientCategories/{id}": {
+      "put": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "Creates an ingredient category",
+        "operationId": "createIngredientCategory",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Category ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Creation model for category",
+            "name": "creationModel",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IngredientCategoryCreationModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response when model has been updated within the data collection"
+          },
+          "201": {
+            "description": "Response when model is added to the data collection",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "Location of created model."
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/ingredients": {
+      "get": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "List all ingredients",
+        "operationId": "listIngredients",
+        "parameters": [
+          {
             "type": "integer",
             "format": "int32",
             "description": "How many items to skip",
             "name": "offset",
+            "in": "query"
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "How many items to return at one time (min 1)",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "type": "string",
+            "description": "Sort order:\n  * asc - Ascending, from A to Z.\n  * desc - Descending, from Z to A.\n",
+            "name": "sort",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ingredient response object containing list of ingredients",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "next": {
+                  "description": "Url to next page. Empty if no additional pages.",
+                  "type": "string"
+                },
+                "recipes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/SmallIngredient"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "get": {
+        "tags": [
+          "recipes"
+        ],
+        "summary": "List all recipes",
+        "operationId": "listRecipes",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "How many items to skip",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32",
+            "description": "How many items to return at one time (min 1)",
+            "name": "limit",
             "in": "query"
           },
           {
@@ -221,7 +606,19 @@ func init() {
           "200": {
             "description": "Recipe response object containing list of recipes",
             "schema": {
-              "$ref": "#/definitions/ListRecipesResponse"
+              "type": "object",
+              "properties": {
+                "next": {
+                  "description": "Url to next page. Empty if no additional pages.",
+                  "type": "string"
+                },
+                "recipes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/SmallRecipe"
+                  }
+                }
+              }
             }
           },
           "default": {
@@ -251,22 +648,79 @@ func init() {
         }
       }
     },
-    "ListRecipesResponse": {
-      "type": "object",
-      "properties": {
-        "next": {
-          "description": "Url to next page. Empty if no additional pages.",
-          "type": "string"
+    "IngredientCategory": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IngredientCategoryCreationModel"
         },
-        "recipes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Recipes"
+        {
+          "$ref": "#/definitions/IngredientCategoryAllOf1"
+        },
+        {
+          "properties": {
+            "id": {
+              "description": "Category name/id.",
+              "type": "string"
+            }
           }
+        }
+      ]
+    },
+    "IngredientCategoryAllOf1": {
+      "required": [
+        "id"
+      ]
+    },
+    "IngredientCategoryCreationModel": {
+      "type": "object",
+      "required": [
+        "color"
+      ],
+      "properties": {
+        "color": {
+          "description": "Color of category.",
+          "type": "string"
         }
       }
     },
-    "Recipe": {
+    "SmallIngredient": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "category": {
+          "description": "List of categories this ingredient belongs to.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "description": "Description of ingredient.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Unique ingredient ID.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "imageUrl": {
+          "description": "URL for display image of ingredient.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of ingredient.",
+          "type": "string"
+        },
+        "url": {
+          "description": "Direct URL to ingredient.",
+          "type": "string"
+        }
+      }
+    },
+    "SmallRecipe": {
       "type": "object",
       "required": [
         "id",
@@ -279,6 +733,10 @@ func init() {
           "items": {
             "type": "string"
           }
+        },
+        "description": {
+          "description": "Description of recipe.",
+          "type": "string"
         },
         "id": {
           "description": "Unique recipe ID.",
@@ -293,17 +751,38 @@ func init() {
           "description": "Name of recipe.",
           "type": "string"
         },
-        "recipeUrl": {
+        "url": {
           "description": "Direct URL to recipe.",
           "type": "string"
         }
       }
+    }
+  },
+  "parameters": {
+    "LimitParam": {
+      "minimum": 1,
+      "type": "integer",
+      "format": "int32",
+      "description": "How many items to return at one time (min 1)",
+      "name": "limit",
+      "in": "query"
     },
-    "Recipes": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Recipe"
-      }
+    "OffsetParam": {
+      "type": "integer",
+      "format": "int32",
+      "description": "How many items to skip",
+      "name": "offset",
+      "in": "query"
+    },
+    "SortParam": {
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "type": "string",
+      "description": "Sort order:\n  * asc - Ascending, from A to Z.\n  * desc - Descending, from Z to A.\n",
+      "name": "sort",
+      "in": "query"
     }
   }
 }`))

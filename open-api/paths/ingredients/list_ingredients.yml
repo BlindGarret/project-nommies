@@ -1,14 +1,14 @@
-summary: List all recipes
-operationId: listRecipes
+summary: List all ingredients
+operationId: listIngredients
 tags:
-  - recipes
+  - ingredients
 parameters:
   - $ref: ../../parameters/default/offset_param.yml
   - $ref: ../../parameters/default/limit_param.yml
   - $ref: ../../parameters/default/sort_param.yml
 responses:
   "200":
-    description: Recipe response object containing list of recipes
+    description: Ingredient response object containing list of ingredients
     schema:
       type: object
       properties:
@@ -18,7 +18,7 @@ responses:
         recipes:
           type: array
           items:
-            $ref: ../../definitions/recipes/small_recipe.yml
+            $ref: ../../definitions/ingredients/small_ingredient.yml
   default:
     description: unexpected error
     schema:

@@ -19,6 +19,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"github.com/BlindGarret/project-nommies/generated/api/restapi/operations/ingredients"
 	"github.com/BlindGarret/project-nommies/generated/api/restapi/operations/recipes"
 )
 
@@ -44,6 +45,15 @@ func NewRecipesAPI(spec *loads.Document) *RecipesAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		IngredientsCreateIngredientCategoryHandler: ingredients.CreateIngredientCategoryHandlerFunc(func(params ingredients.CreateIngredientCategoryParams) middleware.Responder {
+			return middleware.NotImplemented("operation ingredients.CreateIngredientCategory has not yet been implemented")
+		}),
+		IngredientsListIngredientCategoriesHandler: ingredients.ListIngredientCategoriesHandlerFunc(func(params ingredients.ListIngredientCategoriesParams) middleware.Responder {
+			return middleware.NotImplemented("operation ingredients.ListIngredientCategories has not yet been implemented")
+		}),
+		IngredientsListIngredientsHandler: ingredients.ListIngredientsHandlerFunc(func(params ingredients.ListIngredientsParams) middleware.Responder {
+			return middleware.NotImplemented("operation ingredients.ListIngredients has not yet been implemented")
+		}),
 		RecipesListRecipesHandler: recipes.ListRecipesHandlerFunc(func(params recipes.ListRecipesParams) middleware.Responder {
 			return middleware.NotImplemented("operation recipes.ListRecipes has not yet been implemented")
 		}),
@@ -83,6 +93,12 @@ type RecipesAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// IngredientsCreateIngredientCategoryHandler sets the operation handler for the create ingredient category operation
+	IngredientsCreateIngredientCategoryHandler ingredients.CreateIngredientCategoryHandler
+	// IngredientsListIngredientCategoriesHandler sets the operation handler for the list ingredient categories operation
+	IngredientsListIngredientCategoriesHandler ingredients.ListIngredientCategoriesHandler
+	// IngredientsListIngredientsHandler sets the operation handler for the list ingredients operation
+	IngredientsListIngredientsHandler ingredients.ListIngredientsHandler
 	// RecipesListRecipesHandler sets the operation handler for the list recipes operation
 	RecipesListRecipesHandler recipes.ListRecipesHandler
 
@@ -162,6 +178,15 @@ func (o *RecipesAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.IngredientsCreateIngredientCategoryHandler == nil {
+		unregistered = append(unregistered, "ingredients.CreateIngredientCategoryHandler")
+	}
+	if o.IngredientsListIngredientCategoriesHandler == nil {
+		unregistered = append(unregistered, "ingredients.ListIngredientCategoriesHandler")
+	}
+	if o.IngredientsListIngredientsHandler == nil {
+		unregistered = append(unregistered, "ingredients.ListIngredientsHandler")
+	}
 	if o.RecipesListRecipesHandler == nil {
 		unregistered = append(unregistered, "recipes.ListRecipesHandler")
 	}
@@ -253,6 +278,18 @@ func (o *RecipesAPI) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/ingredientCategories/{id}"] = ingredients.NewCreateIngredientCategory(o.context, o.IngredientsCreateIngredientCategoryHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/ingredientCategories"] = ingredients.NewListIngredientCategories(o.context, o.IngredientsListIngredientCategoriesHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/ingredients"] = ingredients.NewListIngredients(o.context, o.IngredientsListIngredientsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

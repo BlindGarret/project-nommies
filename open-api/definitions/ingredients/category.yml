@@ -1,0 +1,8 @@
+allOf:
+  - $ref: ./category_creation_model.yml
+  - required:
+    - id
+  - properties:
+      id:
+        type: string
+        description: Category name/id.

@@ -3,10 +3,14 @@ Error:
   $ref: ./default/error.yml
 
 # Recipe definitions
-Recipe:
-  $ref: ./recipes/recipe.yml
-Recipes:
-  $ref: ./recipes/recipes.yml
-ListRecipesResponse:
-  $ref: ./recipes/list_recipes_response.yml
+SmallRecipe:
+  $ref: ./recipes/small_recipe.yml
+
+# Ingredient definitions
+SmallIngredient:
+  $ref: ./ingredients/small_ingredient.yml
+IngredientCategoryCreationModel:
+  $ref: ./ingredients/category_creation_model.yml
+IngredientCategory:
+  $ref: ./ingredients/category.yml
   

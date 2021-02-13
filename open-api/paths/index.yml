@@ -2,3 +2,16 @@
 /recipes:
   get:
     $ref: ./recipes/list_recipes.yml
+
+# Ingredients Paths
+/ingredients:
+  get:
+    $ref: ./ingredients/list_ingredients.yml
+
+/ingredientCategories:
+  get:
+    $ref: ./ingredients/list_categories.yml
+
+/ingredientCategories/{id}:
+  put:
+    $ref: ./ingredients/create_category.yml

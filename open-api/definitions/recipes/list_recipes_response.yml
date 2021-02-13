@@ -6,4 +6,4 @@ properties:
   recipes:
     type: array
     items:
-      $ref: ./recipes.yml
+      $ref: ./small_recipe.yml
