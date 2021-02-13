@@ -1,0 +1,12 @@
+# Default definitions
+Error:
+  $ref: ./default/error.yml
+
+# Recipe definitions
+Recipe:
+  $ref: ./recipes/recipe.yml
+Recipes:
+  $ref: ./recipes/recipes.yml
+ListRecipesResponse:
+  $ref: ./recipes/list_recipes_response.yml
+  

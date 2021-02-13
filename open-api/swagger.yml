@@ -1,0 +1,19 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Project Nommies API
+  license:
+    name: MIT
+host: not.implemented.io
+basePath: /v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  $ref: ./paths/index.yml      
+definitions:
+  $ref: ./definitions/index.yml
+    

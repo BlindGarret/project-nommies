@@ -43,10 +43,10 @@ type ListRecipesParams struct {
 	*/
 	Offset *int32
 	/*Sort order:
-	* asc - Ascending, from A to Z.
-	* desc - Descending, from Z to A.
+	  * asc - Ascending, from A to Z.
+	  * desc - Descending, from Z to A.
 
-	 In: query
+	  In: query
 	*/
 	Sort *string
 }

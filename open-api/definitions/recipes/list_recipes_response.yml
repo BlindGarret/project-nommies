@@ -1,0 +1,9 @@
+type: object
+properties:
+  next:
+    type: string
+    description: Url to next page. Empty if no additional pages.
+  recipes:
+    type: array
+    items:
+      $ref: ./recipes.yml

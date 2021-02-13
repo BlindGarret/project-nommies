@@ -67,7 +67,7 @@ func init() {
               "desc"
             ],
             "type": "string",
-            "description": "Sort order:\n * asc - Ascending, from A to Z.\n * desc - Descending, from Z to A.\n",
+            "description": "Sort order:\n  * asc - Ascending, from A to Z.\n  * desc - Descending, from Z to A.\n",
             "name": "sort",
             "in": "query"
           }
@@ -212,7 +212,7 @@ func init() {
               "desc"
             ],
             "type": "string",
-            "description": "Sort order:\n * asc - Ascending, from A to Z.\n * desc - Descending, from Z to A.\n",
+            "description": "Sort order:\n  * asc - Ascending, from A to Z.\n  * desc - Descending, from Z to A.\n",
             "name": "sort",
             "in": "query"
           }

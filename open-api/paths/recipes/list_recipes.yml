@@ -1,0 +1,36 @@
+summary: List all recipes
+operationId: listRecipes
+tags:
+  - recipes
+parameters:
+  - name: limit
+    in: query
+    description: How many items to return at one time (min 1)
+    required: false
+    type: integer
+    format: int32
+    minimum: 1
+  - name: offset
+    in: query
+    description: How many items to skip
+    required: false
+    type: integer
+    format: int32
+  - name: sort
+    in: query
+    required: false
+    type: string
+    enum: [asc, desc]
+    description: >
+      Sort order:
+        * asc - Ascending, from A to Z.
+        * desc - Descending, from Z to A.
+responses:
+  "200":
+    description: Recipe response object containing list of recipes
+    schema:
+      $ref: ../../definitions/recipes/list_recipes_response.yml
+  default:
+    description: unexpected error
+    schema:
+      $ref: ../../definitions/default/error.yml

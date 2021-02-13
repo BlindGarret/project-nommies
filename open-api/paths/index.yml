@@ -1,0 +1,4 @@
+# Recipe Paths
+/recipes:
+  get:
+    $ref: ./recipes/list_recipes.yml
